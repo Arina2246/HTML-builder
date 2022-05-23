@@ -7,7 +7,7 @@ const { stdin, stdout } = process;
 const creatingFile = fs.createWriteStream(`${pathToFile}`);
 stdout.write('Процесс начался.Файл создан.Введите текст\n');
 stdin.on('data', (txt) => {
-  if (txt.toString() === 'exit\r\n') {
+  if (txt.toString() === 'exit\r\n' || txt.toString() === 'exit\n') {
     process.exit();
   }
   creatingFile.write(txt);
