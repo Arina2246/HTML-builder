@@ -7,7 +7,12 @@ const pathToFinalFile = path.join(__dirname, 'project-dist', 'index.html');
 const creatingFile = fs.createWriteStream(`${pathToFinalFile}`);
 let arr = [];
 fs.readFile(pathToFile, 'utf8', (err, data) => {
-  arr = data.split('\r\n');
+  if (process.platform == 'win32' || process.platform == 'win64'){
+    arr = data.split('\r\n');
+  } else {
+    arr = data.split('\n');
+  }
+  // arr = data.split('\r\n');
   const correctTag = [];
   const indexTag = [];
 
@@ -51,7 +56,13 @@ fs.readFile(pathToFile, 'utf8', (err, data) => {
         for (let i = 0; i < indexTag.length; i++) {
           arr[indexTag[i]] = correctTag[i];
         }
-        arr = arr.join('\r\n');
+        if (process.platform == 'win32' || process.platform == 'win64'){
+          arr = arr.join('\r\n');
+        } else {
+          arr = arr.join('\n');
+        }
+
+        // arr = arr.join('\r\n');
         creatingFile.write(arr);
       });
     });
